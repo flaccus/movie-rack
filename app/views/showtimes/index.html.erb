@@ -1,0 +1,32 @@
+<h1>Listing showtimes</h1>
+<%= form_tag(showtimes_path,:method=>"get",:id=>"showtime_filter") do %>
+    <%= select_tag :time_of_day, options_for_select(showtime_filter_options) %>
+    <%= submit_tag "Filter" %>
+<% end %>
+<table>
+  <tr>
+    <th>Theater</th>
+    <th>Screen</th>
+    <th>Title</th>
+    <th>Showtime</th>
+    <th>Capacity</th>
+    <th>Tickets Available</th>
+    <th></th>
+  </tr>
+
+<% @showtimes.each do |showtime| %>
+  <tr>
+    <td><%= showtime.screen.theater.name %></td>
+    <td><%= showtime.screen.name %></td>
+    <td><%= showtime.movie.title %></td>
+    <td><%= showtime.start_time.strftime('%H:%M') %></td>
+    <td><%= showtime.screen.seating_capacity %></td>
+    <td><%= showtime.available_seats %></td>
+    
+    <td><%= showtime.available_seats > 0 ?  link_to("Get Tickets", new_ticket_path(:showtime_id => showtime.id)) : "SOLD OUT" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
